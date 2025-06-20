@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d4e76764c1cbd0dfa7d7af47a0b9093e0bb25931
 services:
   app:
     build:
@@ -28,6 +31,7 @@ services:
       - "5432:5432"
       
 volumes:
+<<<<<<< HEAD
 =======
 services:
   app:
@@ -55,4 +59,6 @@ services:
       
 volumes:
 >>>>>>> origin/main
+=======
+>>>>>>> d4e76764c1cbd0dfa7d7af47a0b9093e0bb25931
   db_data:
