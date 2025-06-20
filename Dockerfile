@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ステージ1: ビルド環境 (依存関係のインストールとアプリケーションのビルド)
 FROM node:20-alpine AS builder
 
@@ -26,6 +27,37 @@ RUN npm prune --production
 
 
 # ステージ2: 実行環境 (軽量なイメージ)
+=======
+# --------------------------------------------------------------------
+# ステージ1: ビルダー (Builder)
+# --------------------------------------------------------------------
+FROM node:20-alpine AS builder
+
+# Next.jsプロジェクトのルートを作業ディレクトリにする
+WORKDIR /app
+
+# 依存関係のファイルを先にコピー
+COPY src/package.json src/package-lock.json* ./
+
+# 依存関係をインストール
+RUN npm install
+
+# プロジェクトのソースコードを全部コピー
+COPY src/ .
+
+# ★★★★★★★★★★★★★★★★★★★★★★★
+# ★ ここに Prisma Client を生成するコマンドを追加！ ★
+# ★★★★★★★★★★★★★★★★★★★★★★★
+RUN npx prisma generate
+
+# Next.jsアプリをビルド (next.config.js に output: 'standalone' がある前提)
+RUN npm run build
+
+
+# --------------------------------------------------------------------
+# ステージ2: ランナー (Runner)
+# --------------------------------------------------------------------
+>>>>>>> origin/main
 FROM node:20-alpine AS runner
 
 WORKDIR /app
@@ -34,6 +66,7 @@ WORKDIR /app
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+<<<<<<< HEAD
 # ビルドステージから、実行に必要なファイルだけをコピー
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
@@ -53,3 +86,23 @@ EXPOSE 3000
 
 # アプリケーションを起動
 CMD ["npm", "start"]
+=======
+# ビルダー(builder)ステージから、実行に必要なファイルだけをコピー
+# standaloneモードの出力を使うと、これだけでOK
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Prismaのスキーマファイルも実行環境にコピーする
+# これがないと、実行時にPrismaがスキーマを見つけられずにエラーになることがある
+COPY --from=builder /app/prisma ./prisma
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV NODE_ENV=production
+
+# アプリケーションを起動
+CMD ["node", "server.js"]
+>>>>>>> origin/main
