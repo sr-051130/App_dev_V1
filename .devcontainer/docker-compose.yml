@@ -13,7 +13,6 @@ services:
     #environment:
     #  - WATCHPACK_POLLING=true
     #  - NEXT_PUBLIC_BASE_URL=http://localhost:3000
-
     command: sleep infinity
     depends_on:
       - db
@@ -25,6 +24,12 @@ services:
 
       - .env # docker-compose.ymlから見て一つ上の階層の.envファイル
       - ../.env.local
+
+      - .env # docker-compose.ymlから見て一つ上の階層の.envファイル
+
+      - ../.env # docker-compose.ymlから見て一つ上の階層の.envファイル
+      - ../.env.local
+
 
   # データベースコンテナ (PostgreSQL)
   db:
@@ -38,6 +43,12 @@ services:
     # これにより、POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DBが自動で設定される
     env_file:
       - .env # docker-compose.ymlから見て一つ上の階層の.envファイル
+
+      - .env # docker-compose.ymlから見て一つ上の階層の.envファイル
+
+
+      - ../.env # docker-compose.ymlから見て一つ上の階層の.envファイル
+
 
 # 名前付きボリュームの定義
 volumes:

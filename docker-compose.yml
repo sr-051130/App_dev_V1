@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d4e76764c1cbd0dfa7d7af47a0b9093e0bb25931
 services:
   app:
     build:
@@ -27,4 +31,34 @@ services:
       - "5432:5432"
       
 volumes:
+<<<<<<< HEAD
+=======
+services:
+  app:
+    build:
+      context: .
+    tty: true
+    volumes:
+      - ./src:/app
+    environment:
+      - WATCHPACK_POLLING=true
+    command: sh -c "npm run dev"
+    ports:
+      - "3000:3000"
+      - "5555:5555"
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+      
+volumes:
+>>>>>>> origin/main
+=======
+>>>>>>> d4e76764c1cbd0dfa7d7af47a0b9093e0bb25931
   db_data:

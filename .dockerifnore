@@ -1,0 +1,14 @@
+<<<<<<< HEAD
+.env
+.env*.local
+.git
+.next
+node_modules
+=======
+.env
+.env*.local
+.git
+.next
+node_modules
+>>>>>>> d4e76764c1cbd0dfa7d7af47a0b9093e0bb25931
+README.md
